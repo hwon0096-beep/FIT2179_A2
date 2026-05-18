@@ -12,7 +12,7 @@
   },
 
   "data": {
-    "url": "../data/pollution.csv"
+    "url": "data/pollution.csv"
   },
 
   "transform": [

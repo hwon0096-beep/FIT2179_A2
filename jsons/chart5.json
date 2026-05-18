@@ -3,7 +3,7 @@
     "width": "container",
     "height": 400,
     "data": {
-        "url": "../data/air_pollution.csv"
+        "url": "data/air_pollution.csv"
     },
     "transform": [
         {
