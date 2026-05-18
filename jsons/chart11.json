@@ -1,0 +1,95 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Strong Pollutant Correlation in Urban Areas",
+    "subtitle": "Higher nitrogen dioxide levels typically coincide with dangerous particulate matter concentrations.",
+    "fontSize": 22,
+    "subtitleFontSize": 13
+  },  
+  "width": "container",
+  "height": 400,
+  "data": {
+    "url": "../data/pollution.csv"
+  },
+
+  "params": [
+    {
+      "name": "region_selection",
+      "select": {"type": "point", "fields": ["Region"]},
+      "bind": "legend"
+    }
+  ],
+  "transform": [
+   {
+    "filter": "datum['Country Name'] == 'Malaysia'"
+   },
+   {
+    "calculate": "toNumber(datum['PM2.5 (μg/m3)'])",
+    "as": "PM25"
+   },
+   {
+    "calculate": "toNumber(datum['NO2 (μg/m3)'])",
+    "as": "NO2"
+   },
+   {
+    "calculate": "toNumber(datum['PM10 (μg/m3)'])",
+    "as": "PM10"
+   },
+   {
+    "filter": "datum.PM25 > 0 && datum.NO2 > 0 && datum.PM10 > 0"
+   },
+   {
+    "calculate": "indexof(['Johor', 'Kuala Lumpur','Melaka','Negeri Sembilan','Pulau Pinang','Putrajaya','Selangor'], datum.City) >= 0 ? 'Urban' : 'Non-Urban'",
+    "as": "Region"
+   }
+  ],
+  "mark": {
+    "type": "point",
+    "filled": true,
+    "stroke": "white",
+    "strokeWidth": 1,
+    "clip": true
+  },
+  "encoding": {
+    "x": {
+      "field": "NO2",
+      "type": "quantitative",
+      "title": "Nitrogen Dioxide (NO₂ µg/m³)",
+      "scale": {"nice": true, "padding": 30}
+    },
+    "y": {
+      "field": "PM10",
+      "type": "quantitative",
+      "title": "Particulate Matter 10 (PM10 µg/m³)",
+      "scale": {"nice": true, "padding": 30}
+    },
+    "size": {
+      "field": "PM25",
+      "type": "quantitative",
+      "title": "PM2.5 (µg/m³)",
+      "scale": {
+        "type": "linear", "range": [10, 2500], "zero": false
+      }
+    },
+    "color": {
+      "field": "Region",
+      "type": "nominal",
+      "title": "Malaysia Region",
+      "scale": {
+            "range": ["#957DAD", "#BF9B30"]
+      }
+    },
+    "opacity": {
+      "condition": {"param": "region_selection", "value": 1},
+      "value": 0.1
+    },
+    "tooltip": [
+      {"field": "City", "type": "nominal", "title": "City"},
+      {"field": "NO2", "type": "quantitative", "title": "NO₂ (µg/m³)"},
+      {"field": "PM10", "type": "quantitative", "title": "PM10 (µg/m³)"},
+      {"field": "PM25", "type": "quantitative", "title": "PM2.5 (µg/m³)"},
+      {"field": "Region", "type": "nominal", "title": "Region"}
+    ]
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": 400,
+
+  "title": {
+    "text": "Regional Air Quality Exceeds Safety Guidelines",
+    "subtitle": "Regional particulate averages outpace strict global guidelines despite varying industrial baselines",
+    "fontSize": 22,
+    "subtitleFontSize": 12
+  },
+
+  "data": {
+    "url": "../data/pollution.csv"
+  },
+
+  "transform": [
+    {
+      "filter": "datum['PM2.5 (μg/m3)'] != null"
+    },
+
+    {
+      "aggregate": [
+        {
+          "op": "mean",
+          "field": "PM2.5 (μg/m3)",
+          "as": "avg_pm25"
+        }
+      ],
+      "groupby": ["Country Name"]
+    },
+
+    {
+      "filter": {
+        "field": "Country Name",
+        "oneOf": [
+          "Afghanistan",
+          "Malaysia",
+          "Singapore",
+          "Indonesia",
+          "Iceland"
+        ]
+      }
+    }
+  ],
+
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "cornerRadiusEnd": 5
+      },
+
+      "encoding": {
+        "y": {
+          "field": "Country Name",
+          "type": "nominal",
+          "sort": "-x",
+          "title": null,
+          "axis": {
+            "labelFontSize": 12
+          }
+        },
+
+        "x": {
+          "field": "avg_pm25",
+          "type": "quantitative",
+          "title": "Average PM2.5 (μg/m³)",
+          "scale": {
+            "domain": [0, 130]
+          },
+          "axis": {
+            "titleFontSize": 12,
+            "labelFontSize": 12
+          }
+        },
+
+        "color": {
+          "condition": [
+            {
+              "test": "datum['Country Name'] == 'Malaysia'",
+              "value": "blue"
+            }
+          ],
+          "value": "#dcdcdc"
+        },
+        "tooltip": [
+          {
+            "field": "Country Name",
+            "type": "nominal",
+            "title": "Country"
+          },
+          {
+            "field": "avg_pm25",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Avg PM2.5 (μg/m³)"
+          }
+        ]
+      }
+    },
+
+    {
+      "mark": {
+        "type": "rule",
+        "strokeDash": [4, 4],
+        "size": 2,
+        "color": "red"
+      },
+
+      "encoding": {
+        "x": {
+          "datum": 5
+        }
+      }
+    },
+
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "dy": -140,
+        "fontSize": 12,
+        "color": "red"
+      },
+
+      "encoding": {
+        "x": {
+          "datum": 5
+        },
+        "text": {
+          "value": "WHO Guideline"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "dy": -125,
+        "fontSize": 12,
+        "fontStyle": "italic",
+        "color": "red"
+      },
+      "encoding": {
+        "x": {
+          "datum": 5
+        },
+        "text": {
+          "value": "Strict annual exposure limit."
+        }
+      }
+    },
+    {
+        "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 10,
+            "dy": 0,
+            "fontSize": 12,
+            "fontStyle": "italic",
+            "color": "#444"
+        },
+
+        "encoding": {
+            "x": {
+            "datum": 7
+            },
+            "y": {
+                "field": "Country Name",
+                "type": "nominal",
+                "datum": "Iceland"
+            },
+            "text": {
+                "value": "Even Iceland may exceed the WHO guideline"
+            }
+        }
+    }
+  ],
+
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}

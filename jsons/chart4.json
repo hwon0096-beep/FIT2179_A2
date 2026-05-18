@@ -1,0 +1,77 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+      "text": "Historical Haze Crisis Sparks Severe Air Pollution Surges",
+      "fontSize": 22
+    },
+    "width": "container",
+    "height": 400,
+    "data": {
+        "url": "../data/EnvironmentStatistics.csv"
+    },
+    "transform": [
+        {
+            "filter": "datum['Air Pollutant Index Api'] == 'Max.'"
+        }
+    ],  
+    "params": [
+        {
+            "name": "highlight",
+            "select": {"type": "point", "on": "mouseover"}
+        }
+    ],
+    "mark": {
+        "type": "rect",
+        "stroke": "white",
+        "strokeWidth": 0.5
+    },
+    "encoding":{
+        "x": {
+            "field": "Year",
+            "type": "ordinal",
+            "title": "Year",
+            "axis": {
+                "labelAngle": 0,
+                "grid": false,
+                "ticks": false
+            }
+        },
+        "y": {
+            "field": "Selected Stations",
+            "type": "nominal",
+            "title": "Monitoring Station",
+            "axis": {
+                "grid": false,
+                "ticks": false,
+                "offset": 5,
+                "labelAngle": 0,
+                "labelPadding":0
+            }
+        },
+        "color":{
+            "field": "Value",
+            "type": "quantitative",
+            "title": "Max API Value",
+            "scale": {
+                "scheme": "reds"
+            }
+        },
+        "fillOpacity": {
+            "condition": {"param": "highlight", "value": 1},
+            "value": 0.7
+        },
+        "stroke": {
+            "condition": {"param": "highlight", "empty": false, "value": "black"},
+            "value": "transparent"
+        },
+        "tooltip": [
+            {"field": "Selected Stations", "type": "nominal", "title": "Station"},
+            {"field": "Year", "type": "ordinal", "title": "Year"},
+            {"field": "Value", "type": "quantitative", "title": "Max API Value"}
+        ]
+    },
+    "config": {
+        "view": {"stroke": "transparent"},
+        "axis": {"domain": false, "labelFontSize": 11, "titleFontSize": 12}
+  }
+}

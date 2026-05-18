@@ -1,0 +1,137 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container",
+    "height": 400,
+    "title": {
+      "text": "Widespread Air Quality Failure Across Both Urban and Rural Malaysia",
+      "subtitle": "Industrial regional centers heavily outpace Malaysia's national air pollution baseline.",
+      "fontSize": 22,
+      "subtitleFontSize": 13
+    },
+    "projection": {
+      "type": "mercator",
+      "center": [109.0, 4.2],
+      "scale": 2200
+    },
+    "layer": [
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+                "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+            },
+            "mark": {"type": "geoshape", "fill": "#efefef", "stroke": "white"}
+        },
+        {
+            "data": {"url": "../data/pollution.csv"},
+            "transform": [
+                {"filter": "datum['Country Name'] == 'Malaysia'"},
+                {"calculate": "datum['PM2.5 (μg/m3)']", "as": "pm_val"},
+                {
+                    "calculate": "datum.City == 'Johor' ? 'Johor Bahru' : datum.City == 'Kedah' ? 'Alor Setar' : datum.City == 'Kelantan' ? 'Kota Bharu' : datum.City == 'Negeri Sembilan' ? 'Seremban' : datum.City == 'Perak' ? 'Ipoh' : datum.City == 'Perlis' ? 'Pangar' : datum.City == 'Pulau Pinang' ? 'George Town' : datum.City == 'Sabah' ? 'Kota Kinabalu' : datum.City == 'Sarawak' ? 'Kuching' : datum.City == 'Selangor' ? 'Shah Alam' : datum.City == 'Terengganu' ? 'Kuala Terengganu' : datum.City == 'W.p Labuan' ? 'Labuan' : datum.City == 'Senai' ? 'Johor Bahru' : datum.City == 'Tanah Rata' ? 'Ipoh' : datum.City",
+                    "as": "NormalizedCity"
+                },
+                {"filter": "datum.pm_val > 0"},
+                {
+                    "aggregate": [{"op": "mean", "field": "pm_val", "as": "avg_pm25"}],
+                    "groupby": ["NormalizedCity"]
+                },
+                {
+                    "calculate": "datum.avg_pm25 > 21.1 ? 'Above Malaysia Average (>21.1)' : 'Below Malaysia Average (≤21.1)'",
+                    "as": "SafetyStatus"
+                },
+                {
+                    "lookup": "NormalizedCity",
+                    "from": {
+                        "data": {"url": "../data/my.csv"},
+                        "key": "city",
+                        "fields": ["lat", "lng"]
+                    }
+                }
+            ],
+            "mark": {
+                "type": "circle",
+                "tooltip": {"content": "data"},
+                "opacity": 0.8,
+                "stroke": "black",
+                "strokeWidth": 0.5
+            },
+            "encoding": {
+                "longitude": {"field": "lng", "type": "quantitative"},
+                "latitude": {"field": "lat", "type": "quantitative"},
+                "size": {
+                    "field": "avg_pm25",
+                    "type": "quantitative",
+                    "title": "Average PM2.5 (μg/m³)",
+                    "scale": {
+                        "domain": [10, 30],
+                        "range": [1, 1200]
+                    }
+                },
+                "color": {
+                    "field": "SafetyStatus",
+                    "type": "nominal",
+                    "title": "Safety Status",
+                    "scale": {
+                        "domain": ["Above Malaysia Average (>21.1)", "Below Malaysia Average (≤21.1)"],
+                        "range": ["#0E8787", "#2CDED8"]
+                    }
+                }
+            }
+        },
+        {
+            "data": {
+                "values": [
+                {
+                    "lat": 4.1, 
+                    "lng": 103.0, 
+                    "text": ["West coast industrial centers report", "the highest pollution concentrations."]
+                },
+                {
+                    "lat": 7.0, 
+                    "lng": 110.3, 
+                    "text": ["Sabah managed to maintain", "the lowest pollution concentrations"]
+                }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "dx": 45,
+                "dy": -25,
+                "fontSize": 12,
+                "fontStyle": "italic",
+                "fill": "#444444",
+                "lineHeight": 12
+            },
+            "encoding": {
+                "longitude": {"field": "lng", "type": "quantitative"},
+                "latitude": {"field": "lat", "type": "quantitative"},
+                "text": {"field": "text", "type": "nominal"}
+            }
+        },
+        {
+            "data": {
+                "values": [
+                {"lat": 3.0, "lng": 101.5, "lat_end": 4.0, "lng_end": 105.0},
+                {"lat": 5.975, "lng": 116.0, "lat_end": 7.0, "lng_end": 114.3},
+                {"lat": 5.3, "lng": 115.22, "lat_end": 7.0, "lng_end": 114.3}
+                ]
+            },
+            "mark": {
+                "type": "rule",
+                "color": "black",
+                "strokeWidth": 2
+            },
+            "encoding": {
+                "longitude": {"field": "lng", "type": "quantitative"},
+                "latitude": {"field": "lat", "type": "quantitative"},
+                "longitude2": {"field": "lng_end"},
+                "latitude2": {"field": "lat_end"}
+            }
+        }
+    ],
+    "config": {
+        "title": {"fontSize": 16},
+        "legend": {"orient": "right", "offset": 10}
+    }
+}

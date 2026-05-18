@@ -1,0 +1,83 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container",
+    "height": 400,
+    "autosize": {
+    "type": "fit",
+    "contains": "padding"
+    },
+    "title": {
+      "text": "A World Breathing Unequal Air",
+      "subtitle": "Industrializing nations across Asia and Africa record the highest exposure risks",
+      "fontSize": 22,
+      "subtitleFontSize": 13,
+      "anchor": "middle"
+    },
+    "projection": {"type": "equalEarth"},
+    "layer": [
+        {
+           "data": {
+            "url": "https://unpkg.com/world-atlas@2.0.2/countries-110m.json",
+            "format": {"type": "topojson", "feature": "countries"}
+           },
+              "mark": {"type": "geoshape", "fill": "#f0f0f0", "stroke": "white", "strokeWidth": 0.5}
+        },
+        {
+            "data": {"url": "../data/pollution.csv"},
+            "transform": [
+                {
+                    "filter": "datum.Year >= 2016"
+                },
+                {
+                    "calculate": "datum['Country Name'] == 'Russian Federation' ? 'Russia' : datum['Country Name'] == 'Viet Nam' ? 'Vietnam' : datum['Country Name'] == 'Bolivia (Plurinational State of)' ? 'Bolivia' : datum['Country Name'] == 'Iran (Islamic Republic of)' ? 'Iran' : datum['Country Name'] == 'Republic of Korea' ? 'South Korea' : datum['Country Name'] == 'United Republic of Tanzania' ? 'Tanzania' : datum['Country Name'] == 'Venezuela (Bolivarian Republic of)' ? 'Venezuela' : datum['Country Name'] == 'Lao People\\'s Democratic Republic' ? 'Laos' : datum['Country Name']",
+                    "as": "standardized_name"
+                },
+                {
+                    "aggregate": [{"op": "mean", "field": "PM2.5 (μg/m3)", "as": "avg_pm25"}],
+                    "groupby": ["standardized_name"]
+                },
+                {
+                    "lookup": "standardized_name",
+                    "from": {
+                        "data": {
+                            "url": "https://unpkg.com/world-atlas@2.0.2/countries-110m.json",
+                            "format": {"type": "topojson", "feature": "countries"}
+                        },
+                        "key": "properties.name"
+                    },
+                    "as": "geo"
+                },
+                {"filter": "datum.avg_pm25 != null"}
+            ],
+            "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 0.5},
+            "encoding": {  
+                "shape": {"field": "geo", "type": "geojson"},
+                "color": {
+                    "field": "avg_pm25",
+                    "type": "quantitative",
+                    "title": "PM2.5 (μg/m³)",
+                    "scale": {
+                        "scheme": "yelloworangered",
+                        "domain": [0, 10, 25, 50, 100],
+                        "clamp": true
+                    },
+                    "legend": {
+                        "title": "PM2.5 (μg/m³)",
+                        "orient": "right",
+                        "offset": 5,
+                        "titleAnchor": "start",
+                        "gradientLength": 200,
+                        "gradientThickness": 15,
+                        "titleFontSize": 11,
+                        "labelFontSize": 10
+                    }
+                },
+                "tooltip": [
+                    {"field": "standardized_name", "type": "nominal", "title": "Country"},
+                    {"field": "avg_pm25", "type": "quantitative", "title": "Avg PM2.5 (μg/m³)"}
+                ]
+            }
+        }
+    ],
+    "config": {"view": {"stroke": null}}
+}

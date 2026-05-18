@@ -1,0 +1,242 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "url": "../data/ghg_emissions.csv"
+  },
+  "transform": [
+    {
+      "calculate": "toDate(datum.date, '%d/%m/%Y')",
+      "as": "parsed_date"
+    },
+    {
+      "filter": "datum.source == 'total' || datum.source == 'net'"
+    },
+    {
+      "filter": "isValid(datum.emissions) && datum.emissions > 0"
+    },
+    {
+      "filter": "year(datum.parsed_date) <= 2019"
+    }
+  ],
+  "layer": [
+    {
+      "name": "AreaLayer",
+      "mark": {
+        "type": "area",
+        "opacity": 0.2
+      },
+      "encoding": {
+        "x": {
+          "field": "parsed_date",
+          "type": "temporal",
+          "title": "Year",
+          "axis": {"format": "%Y", "tickCount": "year"}
+        },
+        "y": {
+          "field": "emissions",
+          "type": "quantitative",
+          "title": "GHG Emissions (kt CO₂-e)",
+          "stack": null,
+          "scale": {"domain": [50000, 350000]}
+        },
+        "color": {
+            "field": "source",
+            "type": "nominal",
+            "scale": {"domain": ["net", "total"], "range": ["#FDE725FF", "#7AD151FF"]},
+            "legend": null
+        }
+      }
+    },
+    {
+      "name": "LineLayer",
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3
+      },
+      "encoding": {
+        "x": {"field": "parsed_date", "type": "temporal"},
+        "y": {"field": "emissions", "type": "quantitative", "stack": null},
+        "color": {"field": "source", "type": "nominal"},
+        "tooltip": [
+          {"field": "parsed_date", "type": "temporal", "title": "Year", "format": "%Y"},
+          {"field": "source", "type": "nominal", "title": "Type"},
+          {"field": "emissions", "type": "quantitative", "title": "Emissions", "format": ","}
+        ]
+      }
+    },
+    {
+      "name": "DirectLabels",
+      "transform": [
+        {
+          "window": [{"op": "rank", "as": "rank"}],
+          "sort": [{"field": "parsed_date", "order": "descending"}],
+          "groupby": ["source"]
+        },
+        {"filter": "datum.rank === 1"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 8,
+        "fontWeight": "bold",
+        "fontSize": 14
+      },
+      "encoding": {
+        "x": {"field": "parsed_date", "type": "temporal"},
+        "y": {"field": "emissions", "type": "quantitative"},
+        "text": {"field": "source", "type": "nominal"},
+        "color": {"field": "source", "type": "nominal"}
+      }
+    },
+    {
+            "name": "2016HazeArrow",
+            "data": {
+                "values": [
+                    {
+                        "x": "2016",
+                        "y": 98804,
+                        "x2": "2015",
+                        "y2": 120000
+                    }
+                ]
+            },
+            "mark": {
+                "type": "line",
+                "color": "black",
+                "strokeWidth": 1
+            },
+            "encoding": {
+                "x": {
+                    "field": "x",
+                    "type": "temporal"
+                },
+                "y": {
+                    "field": "y",
+                    "type": "quantitative"
+                },
+                "x2": {
+                    "field": "x2"
+                },
+                "y2": {
+                    "field": "y2"
+                }
+            }
+        },
+        {
+            "name": "2016HazeText",
+            "data": {
+                "values": [
+                    {
+                        "x": "2014-06-01",
+                        "y": 130000,
+                        "note": [
+                            "El Niño-induced peat fires"
+                        ]
+                    }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 5,
+                "fontSize": 11,
+                "lineHeight": 14
+            },
+            "encoding": {
+                "x": {
+                    "field": "x",
+                    "type": "temporal"
+                },
+                "y": {
+                    "field": "y",
+                    "type": "quantitative"
+                },
+                "text": {
+                    "field": "note"
+                }
+            }
+        },
+    {
+            "name": "2019HazeArrow",
+            "data": {
+                "values": [
+                    {
+                        "x": "2019",
+                        "y": 115643,
+                        "x2": "2018",
+                        "y2": 140000
+                    }
+                ]
+            },
+            "mark": {
+                "type": "line",
+                "color": "black",
+                "strokeWidth": 1
+            },
+            "encoding": {
+                "x": {
+                    "field": "x",
+                    "type": "temporal"
+                },
+                "y": {
+                    "field": "y",
+                    "type": "quantitative"
+                },
+                "x2": {
+                    "field": "x2"
+                },
+                "y2": {
+                    "field": "y2"
+                }
+            }
+        },
+        {
+            "name": "2019HazeText",
+            "data": {
+                "values": [
+                    {
+                        "x": "2016-06-01",
+                        "y": 160000,
+                        "note": [
+                            "2019 Southeast Asian Haze from peat fires"
+                        ]
+                    }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 5,
+                "fontSize": 11,
+                "lineHeight": 11
+            },
+            "encoding": {
+                "x": {
+                    "field": "x",
+                    "type": "temporal"
+                },
+                "y": {
+                    "field": "y",
+                    "type": "quantitative"
+                },
+                "text": {
+                    "field": "note"
+                }
+            }
+        }
+  ],
+  "title": {
+    "text": "Malaysia's Net Emissions vs Total GHG Outputs",
+    "subtitle": "LULUCF sinks lower Net emissions; fires release stored carbon and destroy this absorption capacity.",
+    "fontSize": 22,
+    "subtitleFontSize": 13
+  },
+  "config": {
+    "axis": {"labelFontSize": 12, "titleFontSize": 14},
+    "background": "white"
+  }
+}

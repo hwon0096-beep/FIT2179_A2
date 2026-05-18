@@ -1,0 +1,183 @@
+/* --- Base Reset & Typography --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Clean sans-serif typeface matching your topic */
+    line-height: 1.6; /* Balanced line height for high readability */
+    color: #2c3e50;
+    background-color: #f4f6f8; /* Soft background tint creates clear figure-ground contrast */
+}
+
+/* --- Navigation Bar --- */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.nav-brand {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #1a252f;
+}
+
+.nav-links a {
+    color: #7f8c8d;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: #34495e;
+}
+
+/* --- Header Section --- */
+header {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 60px 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+header h1 {
+    font-size: 2.6rem;
+    color: #1a252f;
+    margin-bottom: 12px;
+    font-weight: 800;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* --- Layout Constraints --- */
+.container {
+    width: 92%;
+    max-width: 1500px;
+    margin: auto;
+}
+
+/* --- Content Cards & Sections (White Space Management) --- */
+.intro-card, .story-section {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    margin-bottom: 50px; /* Generous, intentional white space to prevent visual clutter */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #1a252f;
+    margin-bottom: 15px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+/* Clear visual indicator marker line under headings */
+h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 50px;
+    background-color: #34495e;
+    border-radius: 2px;
+}
+
+.narrative-text {
+    font-size: 1.1rem;
+    color: #5a6c7d;
+    max-width: 800px; /* Restricts long paragraphs so text lines stay easy to track */
+    margin-bottom: 30px;
+}
+
+/* --- Symmetric Alignment Grids (Sightline Alignment) --- */
+.chart-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns of completely equal structural width */
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.chart-row-1col {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-bottom: 30px;
+}
+
+/* Individual Visualization Display Box */
+.chart-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers Vega charts perfectly along alignment lines */
+    width: 100%;
+}
+
+.chart-box h3 {
+    font-size: 1.1rem;
+    color: #34495e;
+    margin-bottom: 15px;
+    align-self: flex-start; /* Keeps the title clean and left-aligned */
+}
+
+/* Forces Vega container divs to wrap tightly and scale cleanly */
+.chart-box > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* --- Footer & Metadata Setup --- */
+footer {
+    background-color: #1a252f;
+    color: #ecf0f1;
+    padding: 40px 20px;
+    margin-top: 60px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+}
+
+.footer-content p {
+    margin-bottom: 10px;
+}
+
+.footer-content a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.footer-content a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustment for small laptop screens */
+@media (max-width: 900px) {
+    .chart-row-2col {
+        grid-template-columns: 1fr; /* Wrap columns gracefully into rows if screen is too narrow */
+    }
+}

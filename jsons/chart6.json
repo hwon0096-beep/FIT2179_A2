@@ -1,0 +1,213 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container",
+    "height": 400,
+    "data": {
+        "url": "../data/air_pollution.csv"
+    },
+    "transform": [
+        {
+            "filter": {
+                "field": "pollutant",
+                "oneOf": [
+                    "PM 2.5"
+                ]
+            }
+        },
+        {
+            "filter": "datum.concentration != null"
+        },
+        {
+            "calculate": "toDate(datum.date, '%d/%m/%Y')",
+            "as": "parsed_date"
+        },
+        {
+            "filter": "datum.parsed_date >= datetime(2018, 0, 1) && datum.parsed_date <= datetime(2022, 11, 31)"
+        }
+    ],
+    "layer": [
+        {
+            "name": "MainLine",
+            "mark": {
+                "type": "line",
+                "point": {
+                    "size": 15
+                },
+                "strokeWidth": 1.5,
+                "tooltip": true
+            },
+            "encoding": {
+                "x": {
+                    "field": "parsed_date",
+                    "type": "temporal",
+                    "title": "Date",
+                    "axis": {
+                        "format": "%b %Y",
+                        "labelAngle": -40
+                    }
+                },
+                "y": {
+                    "field": "concentration",
+                    "type": "quantitative",
+                    "title": "Pollutant Concentration (µg/m³)",
+                    "scale": {
+                        "zero": false,
+                        "domain": [
+                            0,
+                            55
+                        ]
+                    }
+                },
+                "color": {
+                    "field": "pollutant",
+                    "type": "nominal",
+                    "legend": null,
+                    "scale": {
+                        "range": [
+                            "#e7298a"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "name": "HazeArrow",
+            "data": {
+                "values": [
+                    {
+                        "x": "2019-09-01",
+                        "y": 52.86,
+                        "x2": "2020-02-01",
+                        "y2": 45
+                    }
+                ]
+            },
+            "mark": {
+                "type": "line",
+                "color": "black",
+                "strokeWidth": 1
+            },
+            "encoding": {
+                "x": {
+                    "field": "x",
+                    "type": "temporal"
+                },
+                "y": {
+                    "field": "y",
+                    "type": "quantitative"
+                },
+                "x2": {
+                    "field": "x2"
+                },
+                "y2": {
+                    "field": "y2"
+                }
+            }
+        },
+        {
+            "name": "HazeText",
+            "data": {
+                "values": [
+                    {
+                        "x": "2020-02-15",
+                        "y": 45,
+                        "note": [
+                            "September 2019 Peak",
+                            "due to regional haze."
+                        ]
+                    }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 5,
+                "fontSize": 12,
+                "lineHeight": 14
+            },
+            "encoding": {
+                "x": {
+                    "field": "x",
+                    "type": "temporal"
+                },
+                "y": {
+                    "field": "y",
+                    "type": "quantitative"
+                },
+                "text": {
+                    "field": "note"
+                }
+            }
+        },
+        {
+            "name": "WHO_Guideline_Reference",
+            "data": {
+                "values": [
+                    {
+                        "y": 21.1
+                    }
+                ]
+            },
+            "mark": {
+                "type": "rule",
+                "strokeDash": [
+                    4,
+                    4
+                ],
+                "color": "blue",
+                "opacity": 0.6
+            },
+            "encoding": {
+                "y": {
+                    "field": "y",
+                    "type": "quantitative"
+                }
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {
+                        "x": "2021-01-01",
+                        "y": 23,
+                        "text": "Malaysia Average PM2.5 (21.1 µg/m³)"
+                    }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "fontSize": 12,
+                "color": "blue",
+                "fontStyle": "italic"
+            },
+            "encoding": {
+                "x": {
+                    "field": "x",
+                    "type": "temporal"
+                },
+                "y": {
+                    "field": "y",
+                    "type": "quantitative"
+                },
+                "text": {
+                    "field": "text"
+                }
+            }
+        }
+    ],
+    "title": {
+        "text": [
+            "The 2019 Haze Crisis: Fine Particulate Peak"
+        ],
+        "fontSize": 22
+    },
+    "config": {
+        "axis": {
+            "labelFontSize": 12,
+            "titleFontSize": 14
+        },
+        "background": "white"
+    }
+}

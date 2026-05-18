@@ -1,0 +1,68 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {"text": "Energy Sector Dominates Malaysia's Greenhouse Gas Emission Profile Over Time",
+    "subtitle": "Select one source to filter",
+    "fontSize": 22,
+    "subtitleFontSize": 15
+},
+    "data": {
+        "url": "../data/ghg_emissions.csv"
+    },
+    "transform": [
+        {"filter": "year(datum.date) <= 2019"},
+        {"filter": "datum.source != 'total' && datum.source != 'net'"}
+    ],
+    "hconcat": [
+        {
+            "title": {
+                "text": "1. GHG Emissions for Source",
+                "subtitle": "Most industrial sectors show positive emissions while LULUCF acts as sink",
+                "fontSize": 18,
+                "subtitleFontSize": 12
+            },
+            "width": "container",
+            "height": 400,
+            "mark": "bar",
+            "params": [
+                {
+                    "name": "pts",
+                    "select": {"type": "point", "fields": ["source"]}
+                }
+            ],
+            "encoding": {
+                "x": {"field": "source", "type": "nominal", "axis": {"labelAngle": 0}},
+                "y": {"aggregate": "mean", "field": "emissions", "type": "quantitative", "scale": {"domain": [-260000, 280000]}},
+                "color": {
+                    "condition": {"param": "pts", "field": "source", "type": "nominal",
+                    "scale": {"domain": ["energy","industrial_processes", "agriculture", "waste", "lulucf"], "range": ["#2171b5","#084594", "#6baed6", "#bdd7e7", "#22A884FF"]},
+                    "legend": null
+                    },
+                    "value": "grey"
+                },
+                "opacity": {
+                    "condition": {"param": "pts", "value": 1},
+                    "value": 0.3
+                }
+            }
+        },
+        {
+            "title": {
+                "text": "2. Emission Trend for Source",
+                "subtitle": "Annual emission trends remain largely stable across all major national sectors",
+                "fontSize": 18,
+                "subtitleFontSize": 12
+            },
+            "width": "container",
+            "height": 400,
+            "transform": [{"filter": {"param": "pts"}}],
+            "mark": {"type": "line", "point": true},
+            "encoding": {
+                "x": {"field": "date", "type": "temporal", "title": "Year"},
+                "y": {"field": "emissions", "type": "quantitative", "title": "GHG Emissions", "scale": {"domain": [-260000, 280000]}},
+                "color": {"field": "source", "type": "nominal",
+                "scale": {"domain": ["energy","industrial_processes", "agriculture", "waste", "lulucf"], "range": ["#2171b5","#084594", "#6baed6", "#bdd7e7", "#22A884FF"]}
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaysia Air Quality & Emissions Storyboard</title>\
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Clearing the Smoke: Mapping Malaysia's Air Quality & Emission Realities</h1>
+        <p class="subtitle">An analysis of PM2.5 pollution patterns, historical haze anomalies, and greenhouse gas drivers.</p>
+    </header>
+
+    <main class="container">
+        <section id="macro" class = "story-section">
+            <h2>1. The Global and Regional Scale</h2>
+            <p class="narrative-text">
+            Understanding Malaysia's position requires global comparison.
+            </p>
+            <div class="chart-row-2col">
+                <div class="chart-box">
+                    <h3>Global Comparative Hotspots</h3>
+                    <div id="vis_map1"></div> 
+                </div>
+                <div class="chart-box">
+                    <h3>Regional Air Quality vs. WHO Guidelines</h3>
+                    <div id="vis_chart2"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="haze" class="story-section">
+            <h2>2. Tracking the Severe Haze Crises</h2>
+            <p class="narrative-text">
+                Peat fires and transboundary haze cause sharp spikes in Malaysia's air pollution.
+            </p>
+            <div class="chart-row-1col">
+                <div class="chart-box">
+                    <h3>Historical Haze Trends Across Key Monitoring Stations (2000 - 2019)</h3>
+                    <div id="vis_chart4"></div>
+                </div>
+            </div>
+            <div class="chart-row-2col">
+                <div class="chart-box">
+                    <h3>Normalized Pollutant Volatility (PM2.5 vs Others)</h3>
+                    <div id="vis_chart5"></div>
+                </div>
+                <div class="chart-box">
+                    <h3>Dangerous Peak in 2019</h3>
+                    <div id="vis_chart6"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="local" class="story-section">
+            <h2>3. Geographic Distribution and Urban Divergence</h2>
+            <p class="narrative-text">
+                Local data shows a clear industrial–rural gap, with major issues along Malaysia's West Coast.
+            </p>
+            <div class="chart-row-1col"></div>
+                <div class="chart-box">
+                    <h3>Widespread Air Quality Failures Across Industrial Corridors</h3>
+                    <div id="vis_map3"></div> </div>
+                </div>
+            <div class="chart-row-2col">
+                <div class="chart-box">
+                    <h3>PM2.5 Concentration: Urban vs. Rural Malaysia (2019)</h3>
+                    <div id="vis_chart10"></div>
+                </div>
+                <div class="chart-box">
+                    <h3>Correlation of Multiple Air Pollutants in Urban Settings</h3>
+                    <div id="vis_chart11"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="drivers" class="story-section">
+            <h2>4. Dissecting the Greenhouse Gas Emissions Profile</h2>
+            <p class="narrative-text">
+                Industrial emissions drive long-term greenhouse gas levels, while fires intensify air quality crises.
+            </p>
+            <div class="chart-row-1col">
+                <div class="chart-box">
+                    <h3>Interactive Greenhouse Gas Emission Profile Over Time</h3>
+                    <div id="vis_chart7"></div>
+                </div>
+            </div>
+            <div class="chart-row-2col">
+                <div class="chart-box"> 
+                    <h3>Malaysia's Net Emissions Rise Despite Stable Total Outputs</h3>
+                    <div id="vis_chart9"></div>
+                </div>
+                <div class="chart-box">
+                    <h3>LULUCF Sector Offsets and Gross Emissions Composition (2019)</h3>
+                    <div id="vis_chart8"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>Author:</strong> Wong Hui Qing</p>
+            <p><strong>Student ID:</strong> 35633042</p>
+            <p><strong>Unit:</strong> FIT2179 - Data Visualisation</p>
+            <p><strong>Date:</strong> 16 May 2026</p>
+            <hr>
+            <h3>Data Sources</h3>
+            <ul>
+                <li>
+                    Department of Statistics Malaysia (DOSM) – Environment Statistics Portal:
+                    <a href="https://statsdw.dosm.gov.my/environment-statistics/" target="_blank">
+                        statsdw.dosm.gov.my/environment-statistics
+                    </a>
+                </li>
+
+                <li>
+                    Air Pollution Dataset (Kaggle):
+                    <a href="https://www.kaggle.com/datasets/totoro29/air-pollution-level" target="_blank">
+                        kaggle.com/datasets/totoro29/air-pollution-level
+                    </a>
+                </li>
+
+                <li>
+                    Greenhouse Gas Emissions (DOSM Data Catalogue):
+                    <a href="https://open.dosm.gov.my/data-catalogue/ghg_emissions" target="_blank">
+                        open.dosm.gov.my/ghg_emissions
+                    </a>
+                </li>
+
+                <li>
+                    Air Pollution Data (DOSM Data Catalogue):
+                    <a href="https://open.dosm.gov.my/data-catalogue/air_pollution" target="_blank">
+                        open.dosm.gov.my/air_pollution
+                    </a>
+                </li>
+
+                <li>
+                    Malaysia Cities Dataset (SimpleMaps):
+                    <a href="https://simplemaps.com/data/my-cities" target="_blank">
+                        simplemaps.com/data/my-cities
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+     <script>
+        const opt = {
+            actions: false, 
+            loader: { baseURL: ""}
+        };
+
+        vegaEmbed('#vis_map1', 'jsons/map1.json', opt).catch(console.error);
+        vegaEmbed('#vis_chart2', 'jsons/chart2.json', opt).catch(console.error);
+        vegaEmbed('#vis_map3', 'jsons/map3.json', opt).catch(console.error);
+        vegaEmbed('#vis_chart4', 'jsons/chart4.json', opt).catch(console.error);
+        vegaEmbed('#vis_chart5', 'jsons/chart5.json', opt).catch(console.error);
+        vegaEmbed('#vis_chart6', 'jsons/chart6.json', opt).catch(console.error);
+        vegaEmbed('#vis_chart7', 'jsons/chart7.json', opt).catch(console.error);
+        vegaEmbed('#vis_chart8', 'jsons/chart8.json', opt).catch(console.error);
+        vegaEmbed('#vis_chart9', 'jsons/chart9.json', opt).catch(console.error);
+        vegaEmbed('#vis_chart10', 'jsons/chart10.json', opt).catch(console.error);
+        vegaEmbed('#vis_chart11', 'jsons/chart11.json', opt).catch(console.error);
+    </script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 400,
+  "title": {
+    "text": "PM2.5 Pollution: Urban vs. Rural Malaysia (2019)",
+    "subtitle": "Urban development correlates with higher PM2.5 levels in selected developed Malaysian states",
+    "fontSize": 22,
+    "subtitleFontSize": 13
+  },
+  "data": {
+    "url": "../data/pollution.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum['Country Name'] == 'Malaysia'"
+    },
+    {
+      "filter": "toNumber(datum.Year) == 2019"
+    },
+    {
+      "filter": "isValid(toNumber(datum['PM2.5 (μg/m3)']))"
+    },
+    {
+      "calculate": "toNumber(datum['PM2.5 (μg/m3)'])",
+      "as": "PM25"
+    },
+    {
+      "calculate": "indexof(['Johor', 'Kuala Lumpur','Melaka','Negeri Sembilan','Pulau Pinang','Putrajaya','Selangor'], datum.City) >= 0 ? 'Urban' : 'Rural'",
+      "as": "Category"
+    }
+  ],
+  "layer": [
+    {
+      "description": "Malaysia Average PM2.5 Line",
+      "transform": [
+        {
+          "joinaggregate": [
+            {
+              "op": "mean",
+              "field": "PM25",
+              "as": "NationalAvg"
+            }
+          ]
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "color": "blue",
+        "strokeWidth": 1,
+        "strokeDash": [
+          4,
+          4
+        ]
+      },
+      "encoding": {
+        "y": {
+          "field": "NationalAvg",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              32
+            ]
+          }
+        }
+      }
+    },
+    {
+      "description": "National Average Label",
+      "transform": [
+        {
+          "joinaggregate": [
+            {
+              "op": "mean",
+              "field": "PM25",
+              "as": "NationalAvg"
+            }
+          ]
+        },
+        {
+          "aggregate": [
+            {
+              "op": "max",
+              "field": "NationalAvg",
+              "as": "NationalAvg"
+            }
+          ]
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -7,
+        "dy": 20,
+        "baseline": "bottom",
+        "fontSize": 12,
+        "fontStyle": "italic",
+        "color": "blue"
+      },
+      "encoding": {
+        "x": {
+          "value": 500
+        },
+        "y": {
+          "field": "NationalAvg",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              32
+            ]
+          }
+        },
+        "text": {
+          "value": "Malaysia Average PM2.5 (21.1 µg/m³)"
+        }
+      }
+    },
+    {
+      "description": "Boxplot Layer",
+      "mark": {
+        "type": "boxplot",
+        "extent": 1.5,
+        "size": 80,
+        "opacity": 0.6
+      },
+      "encoding": {
+        "x": {
+          "field": "Category",
+          "type": "nominal",
+          "title": "Area Type",
+          "axis": {
+            "labelAngle": 0,
+            "titlePadding": 12,
+            "labelFontSize": 12
+          }
+        },
+        "y": {
+          "field": "PM25",
+          "type": "quantitative",
+          "title": "PM2.5 (μg/m3)",
+          "scale": {
+            "domain": [
+              0,
+              32
+            ]
+          },
+          "axis": {
+            "titlePadding": 12,
+            "labelFontSize": 10
+          }
+        },
+        "color": {
+          "field": "Category",
+          "type": "nominal",
+          "scale": {
+            "range": [
+              "#957DAD",
+              "#BF9B30"
+            ]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "description": "Interactive Data Points Layer",
+      "mark": {
+        "type": "circle",
+        "size": 60,
+        "opacity": 0.7
+      },
+      "encoding": {
+        "x": {
+          "field": "Category",
+          "type": "nominal"
+        },
+        "y": {
+          "field": "PM25",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              32
+            ]
+          }
+        },
+        "color": {
+          "field": "Category",
+          "type": "nominal",
+          "scale": {
+            "range": [
+              "#957DAD",
+              "#BF9B30"
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "State",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "Category",
+            "type": "nominal",
+            "title": "Area Type"
+          },
+          {
+            "field": "PM25",
+            "type": "quantitative",
+            "title": "PM2.5 (μg/m3)"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Insight Annotation Layer",
+      "data": {
+        "values": [
+          {}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "text": "Urban medians exceed the national average",
+        "dx": -200,
+        "dy": -50,
+        "fontSize": 12,
+        "color": "black"
+      },
+      "encoding": {
+        "x": {
+          "datum": "Urban",
+          "type": "nominal"
+        },
+        "y": {
+          "datum": 25,
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              32
+            ]
+          }
+        }
+      }
+    },
+    {
+      "description": "Annotation Connector Line",
+      "mark": {
+        "type": "rule",
+        "stroke": "#333333",
+        "strokeWidth": 0.6
+      },
+      "encoding": {
+        "x": {
+          "datum": "Urban"
+        },
+        "x2": {
+          "datum": "Rural"
+        },
+        "y": {
+          "value": 80
+        },
+        "y2": {
+          "value": 45
+        }
+      }
+    }
+  ],
+  "config": {
+    "background": "white",
+    "axis": {
+      "domain": true,
+      "domainColor": "#dcdde1",
+      "grid": true,
+      "gridColor": "#f5f6fa",
+      "labelFontSize": 14,
+      "titleFontSize": 13,
+      "titleFontWeight": "normal"
+    }
+  }
+}
