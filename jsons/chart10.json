@@ -91,7 +91,7 @@
       "mark": {
         "type": "text",
         "align": "right",
-        "dx": -7,
+        "dx": -10,
         "dy": 20,
         "baseline": "bottom",
         "fontSize": 12,
