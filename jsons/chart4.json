@@ -9,7 +9,7 @@
     "width": "container",
     "height": 400,
     "data": {
-        "url": "../data/EnvironmentStatistics.csv"
+        "url": "data/EnvironmentStatistics.csv"
     },
     "transform": [
         {

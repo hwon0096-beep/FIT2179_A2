@@ -22,7 +22,7 @@
             "mark": {"type": "geoshape", "fill": "#f0f0f0", "stroke": "white", "strokeWidth": 0.5}
         },
         {
-            "data": {"url": "../data/pollution.csv"},
+            "data": {"url": "data/pollution.csv"},
             "transform": [
                 {
                     "filter": "datum.Year >= 2016"

@@ -9,7 +9,7 @@
     "width": "container",
     "height": 400,
     "data": {
-        "url": "../data/ghg_emissions.csv",
+        "url": "data/ghg_emissions.csv",
         "format": {"parse": {"date": "date:'%Y-%m-%d'"}}
     },
     "transform": [

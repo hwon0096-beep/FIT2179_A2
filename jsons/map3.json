@@ -44,7 +44,7 @@
     },
     {
       "data": {
-        "url": "../data/pollution.csv"
+        "url": "data/pollution.csv"
       },
       "transform": [
         {
@@ -79,7 +79,7 @@
           "lookup": "NormalizedCity",
           "from": {
             "data": {
-              "url": "../data/my.csv"
+              "url": "data/my.csv"
             },
             "key": "city",
             "fields": ["lat", "lng"]

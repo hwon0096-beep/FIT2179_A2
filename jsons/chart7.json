@@ -7,7 +7,7 @@
     "anchor": "middle"
 },
     "data": {
-        "url": "../data/ghg_emissions.csv"
+        "url": "data/ghg_emissions.csv"
     },
     "transform": [
         {"filter": "year(datum.date) <= 2019"},

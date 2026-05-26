@@ -10,7 +10,7 @@
   "width": "container",
   "height": 400,
   "data": {
-    "url": "../data/pollution.csv"
+    "url": "data/pollution.csv"
   },
   "transform": [
     {

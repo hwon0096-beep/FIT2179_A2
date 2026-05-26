@@ -9,7 +9,7 @@
     "subtitleFontSize": 13
   },
   "data": {
-    "url": "../data/pollution.csv"
+    "url": "data/pollution.csv"
   },
   "transform": [
     {
