@@ -3,7 +3,7 @@
     "width": "container",
     "height": 400,
     "data": {
-        "url": "data/air_pollution.csv"
+        "url": "../data/air_pollution.csv"
     },
     "transform": [
         {
@@ -171,7 +171,7 @@
                     {
                         "x": "2020-09-01",
                         "y": 23,
-                        "text": "Malaysia Average PM2.5 (21.1 µg/m³)"
+                        "text": "Malaysia Average PM₂.₅ (21.1 µg/m³)"
                     }
                 ]
             },
@@ -201,7 +201,9 @@
         "text": [
             "The 2019 Haze Crisis: Fine Particulate Peak"
         ],
-        "fontSize": 22
+        "subtitle": "Monthly PM₂.₅ concentration levels peaking severely during the September 2019 haze.",
+        "fontSize": 22,
+        "subtitleFontSize": 13
     },
     "config": {
         "axis": {

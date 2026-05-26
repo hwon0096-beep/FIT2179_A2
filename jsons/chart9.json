@@ -3,7 +3,7 @@
   "width": "container",
   "height": 400,
   "data": {
-    "url": "data/ghg_emissions.csv"
+    "url": "../data/ghg_emissions.csv"
   },
   "transform": [
     {
@@ -37,7 +37,7 @@
         "y": {
           "field": "emissions",
           "type": "quantitative",
-          "title": "GHG Emissions (kt CO₂-e)",
+          "title": "GHG Emissions (kt CO₂e)",
           "stack": null,
           "scale": {"domain": [50000, 350000]}
         },

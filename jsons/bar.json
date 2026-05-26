@@ -1,0 +1,120 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Top 3 & Bottom 3 Malaysia States by PM₂.₅",
+    "subtitle": "Grouped by State with average value to show each region exactly once.",
+    "offset": 15,
+    "fontSize": 22,
+    "subtitleFontSize": 13
+  },
+  "width": "container",
+  "height": 400,
+  "data": {
+    "url": "../data/pollution.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum['Country Name'] === 'Malaysia'"
+    },
+    {
+      "calculate": "datum['PM2.5 (μg/m3)'] === '' || datum['PM2.5 (μg/m3)'] == null ? null : toNumber(datum['PM2.5 (μg/m3)'])",
+      "as": "pm25_clean"
+    },
+    {
+      "filter": "datum.pm25_clean !== null && !isNaN(datum.pm25_clean)"
+    },
+    {
+      "calculate": "indexof(['Kuala Lumpur', 'W.P. Kuala Lumpur', 'Putrajaya', 'W.P. Putrajaya', 'Petaling Jaya', 'Selangor'], datum.City) >= 0 ? 'Selangor' : indexof(['Kota Kinabalu', 'Sabah', 'W.p Labuan', 'W.P. Labuan'], datum.City) >= 0 ? 'Sabah' : indexof(['Bayan Lepas', 'Pulau Pinang', 'Penang'], datum.City) >= 0 ? 'Pulau Pinang' : indexof(['Senai', 'Johor'], datum.City) >= 0 ? 'Johor' : indexof(['Tanah Rata', 'Kuantan', 'Pahang'], datum.City) >= 0 ? 'Pahang' : indexof(['Kuching', 'Sarawak'], datum.City) >= 0 ? 'Sarawak' : datum.City",
+      "as": "State"
+    },
+    {
+      "aggregate": [{"op": "mean", "field": "pm25_clean", "as": "Avg_PM25"}],
+      "groupby": ["State"]
+    },
+    {
+      "window": [{"op": "rank", "as": "rank_desc"}],
+      "sort": [{"field": "Avg_PM25", "order": "descending"}]
+    },
+    {
+      "window": [{"op": "rank", "as": "rank_asc"}],
+      "sort": [{"field": "Avg_PM25", "order": "ascending"}]
+    },
+    {
+      "filter": "datum.rank_desc <= 3 || datum.rank_asc <= 3"
+    },
+    {
+      "calculate": "'flags/' + datum.State + '.jpg'",
+      "as": "flag_url"
+    },
+    {
+      "calculate": "datum.rank_desc <= 3 ? 'Top 3 (Highest Pollution)' : 'Bottom 3 (Lowest Pollution)'",
+      "as": "Rank_Group"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "State",
+      "type": "nominal",
+      "sort": {"field": "rank_desc", "order": "ascending"},
+      "title": "State"
+    },
+    "x": {
+      "field": "Avg_PM25",
+      "type": "quantitative",
+      "title": "Average PM₂.₅ Concentration (μg/m³)",
+      "scale": {
+        "domain": [0, 34]
+      }
+    },
+  "color": {
+        "field": "Rank_Group",
+        "type": "nominal",
+        "title": "Safety Status",
+        "scale": {
+          "domain": ["Top 3 (Highest Pollution)", "Bottom 3 (Lowest Pollution)"],
+          "range": ["#D95F02", "#4A4A4A"]
+        },
+        "legend": {
+          "labelExpr": "datum.value === 'Top 3 (Highest Pollution)' ? 'Above Malaysia Average' : 'Below Malaysia Average'"
+        }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar", 
+        "height": 6
+      }
+    },
+    {
+      "mark": {
+        "type": "image",
+        "width": 30,
+        "height": 20,
+        "align": "left",
+        "baseline": "middle",
+        "dx": 8
+      },
+      "encoding": {
+        "url": {"field": "flag_url", "type": "nominal"},
+        "x": {"field": "Avg_PM25", "type": "quantitative"}
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 36,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "text": {"field": "Avg_PM25", "type": "quantitative", "format": ".2f"},
+        "color": {"value": "#222"}
+      }
+    }
+  ],
+  "config": {
+    "title": {"fontSize": 16},
+    "legend": {"orient": "right", "offset": 25}
+  }
+}

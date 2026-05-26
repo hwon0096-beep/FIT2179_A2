@@ -2,14 +2,14 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": {
         "text": "LULUCF Reduces Malaysia’s Net Emissions (2019)",
-        "subtitle": "Natural carbon sinks significantly reduce the total impact of industrial and energy sectors",
+        "subtitle": "Natural carbon sinks significantly reduce the total impact of industrial and energy sectors.",
         "fontSize": 22,
          "subtitleFontSize": 13
     },
     "width": "container",
     "height": 400,
     "data": {
-        "url": "data/ghg_emissions.csv",
+        "url": "../data/ghg_emissions.csv",
         "format": {"parse": {"date": "date:'%Y-%m-%d'"}}
     },
     "transform": [
@@ -52,7 +52,7 @@
                 "y": {
                     "field": "start_val",
                     "type": "quantitative",
-                    "title": "Emissions (kt CO₂-e)",
+                    "title": "Emissions (kt CO₂e)",
                     "axis": {"titleFontSize": 14}
                 },
                 "y2": {
@@ -72,7 +72,7 @@
             "values": [{
             "source": "agriculture", 
             "y": 100000, 
-            "text": ["LULUCF acts as a carbon sink,", "absorbing CO2 to offset gross emissions."]
+            "text": ["LULUCF acts as a carbon sink,", "absorbing CO₂ to offset gross emissions."]
             }]
         },
         "mark": {

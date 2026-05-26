@@ -6,13 +6,14 @@
 
   "title": {
     "text": "Regional Air Quality Exceeds Safety Guidelines",
-    "subtitle": "Regional particulate averages outpace strict global guidelines despite varying industrial baselines",
+    "subtitle": "Regional particulate averages outpace strict global guidelines despite varying industrial baselines.",
     "fontSize": 22,
-    "subtitleFontSize": 12
+    "subtitleFontSize": 13,
+    "offset": 25
   },
 
   "data": {
-    "url": "data/pollution.csv"
+    "url": "../data/pollution.csv"
   },
 
   "transform": [
@@ -45,6 +46,20 @@
     }
   ],
 
+  "encoding": {
+    "y": {
+      "field": "Country Name",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Afghanistan", "Indonesia", "Malaysia", "Singapore", "Iceland"]
+      },
+      "title": null,
+      "axis": {
+        "labelFontSize": 12
+      }
+    }
+  },
+
   "layer": [
     {
       "mark": {
@@ -53,20 +68,10 @@
       },
 
       "encoding": {
-        "y": {
-          "field": "Country Name",
-          "type": "nominal",
-          "sort": "-x",
-          "title": null,
-          "axis": {
-            "labelFontSize": 12
-          }
-        },
-
         "x": {
           "field": "avg_pm25",
           "type": "quantitative",
-          "title": "Average PM2.5 (μg/m³)",
+          "title": "Average PM₂.₅ (μg/m³)",
           "scale": {
             "domain": [0, 130]
           },
@@ -95,7 +100,7 @@
             "field": "avg_pm25",
             "type": "quantitative",
             "format": ".1f",
-            "title": "Avg PM2.5 (μg/m³)"
+            "title": "Avg PM₂.₅ (μg/m³)"
           }
         ]
       }
@@ -112,7 +117,8 @@
       "encoding": {
         "x": {
           "datum": 5
-        }
+        },
+        "y": null
       }
     },
 
@@ -121,7 +127,7 @@
         "type": "text",
         "align": "left",
         "dx": 5,
-        "dy": -140,
+        "dy": -45,
         "fontSize": 12,
         "color": "red"
       },
@@ -130,8 +136,11 @@
         "x": {
           "datum": 5
         },
+        "y": {
+          "datum": "Afghanistan"
+        },
         "text": {
-          "value": "WHO Guideline"
+          "value": "WHO Guideline: Strict annual exposure limit"
         }
       }
     },
@@ -139,45 +148,24 @@
       "mark": {
         "type": "text",
         "align": "left",
-        "dx": 5,
-        "dy": -125,
+        "dx": 10,
+        "dy": 0,
         "fontSize": 12,
         "fontStyle": "italic",
-        "color": "red"
+        "color": "#444"
       },
+
       "encoding": {
         "x": {
-          "datum": 5
+          "datum": 9
+        },
+        "y": {
+          "datum": "Iceland"
         },
         "text": {
-          "value": "Strict annual exposure limit."
+          "value": "Even Iceland may exceed the WHO guideline"
         }
       }
-    },
-    {
-        "mark": {
-            "type": "text",
-            "align": "left",
-            "dx": 10,
-            "dy": 0,
-            "fontSize": 12,
-            "fontStyle": "italic",
-            "color": "#444"
-        },
-
-        "encoding": {
-            "x": {
-            "datum": 7
-            },
-            "y": {
-                "field": "Country Name",
-                "type": "nominal",
-                "datum": "Iceland"
-            },
-            "text": {
-                "value": "Even Iceland may exceed the WHO guideline"
-            }
-        }
     }
   ],
 

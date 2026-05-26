@@ -3,13 +3,13 @@
   "width": "container",
   "height": 400,
   "title": {
-    "text": "PM2.5 Pollution: Urban vs. Rural Malaysia (2019)",
-    "subtitle": "Urban development correlates with higher PM2.5 levels in selected developed Malaysian states",
+    "text": "PM₂.₅ Pollution: Urban vs. Rural Malaysia (2019)",
+    "subtitle": "Urban development correlates with higher PM₂.₅ levels in selected developed Malaysian states.",
     "fontSize": 22,
     "subtitleFontSize": 13
   },
   "data": {
-    "url": "data/pollution.csv"
+    "url": "../data/pollution.csv"
   },
   "transform": [
     {
@@ -113,7 +113,7 @@
           }
         },
         "text": {
-          "value": "Malaysia Average PM2.5 (21.1 µg/m³)"
+          "value": "Malaysia Average PM₂.₅ (21.1 µg/m³)"
         }
       }
     },
@@ -132,14 +132,13 @@
           "title": "Area Type",
           "axis": {
             "labelAngle": 0,
-            "titlePadding": 12,
-            "labelFontSize": 12
+            "titlePadding": 12
           }
         },
         "y": {
           "field": "PM25",
           "type": "quantitative",
-          "title": "PM2.5 (μg/m3)",
+          "title": "PM₂.₅ (μg/m3)",
           "scale": {
             "domain": [
               0,
@@ -147,8 +146,7 @@
             ]
           },
           "axis": {
-            "titlePadding": 12,
-            "labelFontSize": 10
+            "titlePadding": 12
           }
         },
         "color": {
@@ -210,9 +208,9 @@
           {
             "field": "PM25",
             "type": "quantitative",
-            "title": "PM2.5 (μg/m3)"
+            "title": "PM₂.₅ (μg/m3)"
           }
-        ]
+          ]
       }
     },
     {
@@ -277,9 +275,9 @@
       "domainColor": "#dcdde1",
       "grid": true,
       "gridColor": "#f5f6fa",
-      "labelFontSize": 14,
-      "titleFontSize": 13,
-      "titleFontWeight": "normal"
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titlePadding": 10
     }
   }
 }

@@ -2,12 +2,14 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": {
       "text": "Historical Haze Crisis Sparks Severe Air Pollution Surges",
-      "fontSize": 22
+      "subtitle": "Annual maximum API values (2000–2019) highlighting severe historical haze pollution spikes.",
+      "fontSize": 22,
+      "subtitleFontSize": 13
     },
     "width": "container",
     "height": 400,
     "data": {
-        "url": "data/EnvironmentStatistics.csv"
+        "url": "../data/EnvironmentStatistics.csv"
     },
     "transform": [
         {

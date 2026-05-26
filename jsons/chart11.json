@@ -10,7 +10,7 @@
   "width": "container",
   "height": 400,
   "data": {
-    "url": "data/pollution.csv"
+    "url": "../data/pollution.csv"
   },
 
   "params": [
@@ -55,19 +55,20 @@
     "x": {
       "field": "NO2",
       "type": "quantitative",
-      "title": "Nitrogen Dioxide (NO₂ µg/m³)",
-      "scale": {"nice": true, "padding": 30}
+      "title": "Nitrogen Dioxide (NO₂ µg/m³)"
     },
     "y": {
       "field": "PM10",
       "type": "quantitative",
-      "title": "Particulate Matter 10 (PM10 µg/m³)",
-      "scale": {"nice": true, "padding": 30}
+      "title": "Particulate Matter 10 (PM₁₀ µg/m³)",
+      "scale":{
+        "domain": [0,43]
+      }
     },
     "size": {
       "field": "PM25",
       "type": "quantitative",
-      "title": "PM2.5 (µg/m³)",
+      "title": "PM₂.₅ (µg/m³)",
       "scale": {
         "type": "linear", "range": [10, 2500], "zero": false
       }
@@ -81,14 +82,14 @@
       }
     },
     "opacity": {
-      "condition": {"param": "region_selection", "value": 1},
-      "value": 0.1
+      "condition": {"param": "region_selection", "value": 0.7},
+      "value": 0.2
     },
     "tooltip": [
       {"field": "City", "type": "nominal", "title": "City"},
       {"field": "NO2", "type": "quantitative", "title": "NO₂ (µg/m³)"},
-      {"field": "PM10", "type": "quantitative", "title": "PM10 (µg/m³)"},
-      {"field": "PM25", "type": "quantitative", "title": "PM2.5 (µg/m³)"},
+      {"field": "PM10", "type": "quantitative", "title": "PM₁₀ (µg/m³)"},
+      {"field": "PM25", "type": "quantitative", "title": "PM₂.₅ (µg/m³)"},
       {"field": "Region", "type": "nominal", "title": "Region"}
     ]
   }

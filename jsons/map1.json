@@ -1,29 +1,28 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": "container",
-    "height": 400,
-    "autosize": {
-    "type": "fit",
-    "contains": "padding"
-    },
+    "height": 450,
     "title": {
-      "text": "A World Breathing Unequal Air",
-      "subtitle": "Industrializing nations across Asia and Africa record the highest exposure risks",
-      "fontSize": 22,
-      "subtitleFontSize": 13,
-      "anchor": "middle"
+        "text": "A World Breathing Unequal Air",
+        "subtitle": ["Global PM₂.₅ concentrations expressed as multiples of the annual WHO air quality threshold.", "*Grey countries indicate no available data."],
+        "fontSize": 22,
+        "subtitleFontSize": 13,
+        "dx": 40
     },
-    "projection": {"type": "equalEarth"},
+    "projection": {
+        "type": "equalEarth",
+        "scale": 130
+    },
     "layer": [
         {
-           "data": {
-            "url": "https://unpkg.com/world-atlas@2.0.2/countries-110m.json",
-            "format": {"type": "topojson", "feature": "countries"}
-           },
-              "mark": {"type": "geoshape", "fill": "#f0f0f0", "stroke": "white", "strokeWidth": 0.5}
+            "data": {
+                "url": "https://unpkg.com/world-atlas@2.0.2/countries-110m.json",
+                "format": {"type": "topojson", "feature": "countries"}
+            },
+            "mark": {"type": "geoshape", "fill": "#f0f0f0", "stroke": "white", "strokeWidth": 0.5}
         },
         {
-            "data": {"url": "data/pollution.csv"},
+            "data": {"url": "../data/pollution.csv"},
             "transform": [
                 {
                     "filter": "datum.Year >= 2016"
@@ -35,6 +34,10 @@
                 {
                     "aggregate": [{"op": "mean", "field": "PM2.5 (μg/m3)", "as": "avg_pm25"}],
                     "groupby": ["standardized_name"]
+                },
+                {
+                    "calculate": "datum.avg_pm25 / 5",
+                    "as": "pm25_ratio_who"
                 },
                 {
                     "lookup": "standardized_name",
@@ -53,16 +56,15 @@
             "encoding": {  
                 "shape": {"field": "geo", "type": "geojson"},
                 "color": {
-                    "field": "avg_pm25",
+                    "field": "pm25_ratio_who",
                     "type": "quantitative",
-                    "title": "PM2.5 (μg/m³)",
                     "scale": {
                         "scheme": "yelloworangered",
-                        "domain": [0, 10, 25, 50, 100],
+                        "domain": [0, 2, 5, 10, 20],
                         "clamp": true
                     },
                     "legend": {
-                        "title": "PM2.5 (μg/m³)",
+                        "title": "Multiple of WHO Guideline",
                         "orient": "right",
                         "offset": 5,
                         "titleAnchor": "start",
@@ -74,7 +76,8 @@
                 },
                 "tooltip": [
                     {"field": "standardized_name", "type": "nominal", "title": "Country"},
-                    {"field": "avg_pm25", "type": "quantitative", "title": "Avg PM2.5 (μg/m³)"}
+                    {"field": "avg_pm25", "type": "quantitative", "title": "Avg PM₂.₅ (μg/m³)", "format": ".1f"},
+                    {"field": "pm25_ratio_who", "type": "quantitative", "title": "Multiple of WHO Guideline", "format": ".1f"}
                 ]
             }
         }

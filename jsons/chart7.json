@@ -1,12 +1,13 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": {"text": "Energy Sector Dominates Malaysia's Greenhouse Gas Emission Profile Over Time",
-    "subtitle": "Select one source to filter",
+    "subtitle": "Select one source to filter.",
     "fontSize": 22,
-    "subtitleFontSize": 15
+    "subtitleFontSize": 15,
+    "anchor": "middle"
 },
     "data": {
-        "url": "data/ghg_emissions.csv"
+        "url": "../data/ghg_emissions.csv"
     },
     "transform": [
         {"filter": "year(datum.date) <= 2019"},
@@ -30,8 +31,8 @@
                 }
             ],
             "encoding": {
-                "x": {"field": "source", "type": "nominal", "axis": {"labelAngle": 0}},
-                "y": {"aggregate": "mean", "field": "emissions", "type": "quantitative", "scale": {"domain": [-260000, 280000]}},
+                "x": {"field": "source", "type": "nominal","title":"Source", "axis": {"labelAngle": -30}},
+                "y": {"aggregate": "mean", "field": "emissions", "type": "quantitative", "title":"GHG Emissions (kt CO₂e)", "scale": {"domain": [-260000, 280000]}},
                 "color": {
                     "condition": {"param": "pts", "field": "source", "type": "nominal",
                     "scale": {"domain": ["energy","industrial_processes", "agriculture", "waste", "lulucf"], "range": ["#2171b5","#084594", "#6baed6", "#bdd7e7", "#22A884FF"]},
@@ -57,8 +58,8 @@
             "transform": [{"filter": {"param": "pts"}}],
             "mark": {"type": "line", "point": true},
             "encoding": {
-                "x": {"field": "date", "type": "temporal", "title": "Year"},
-                "y": {"field": "emissions", "type": "quantitative", "title": "GHG Emissions", "scale": {"domain": [-260000, 280000]}},
+                "x": {"field": "date", "type": "temporal", "title": "Month and Year","axis":{"format": "%b %Y", "labelAngle": -40}},
+                "y": {"field": "emissions", "type": "quantitative", "title": "GHG Emissions (kt CO₂e)", "scale": {"domain": [-260000, 280000]}},
                 "color": {"field": "source", "type": "nominal",
                 "scale": {"domain": ["energy","industrial_processes", "agriculture", "waste", "lulucf"], "range": ["#2171b5","#084594", "#6baed6", "#bdd7e7", "#22A884FF"]}
                 }

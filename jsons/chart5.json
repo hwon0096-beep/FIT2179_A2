@@ -1,311 +1,264 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container",
-    "height": 400,
-    "data": {
-        "url": "data/air_pollution.csv"
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "url": "../data/air_pollution.csv"
+  },
+  "transform": [
+    {
+      "calculate": "toDate(datum.date, '%d/%m/%Y')",
+      "as": "parsed_date"
     },
-    "transform": [
-        {
-            "calculate": "toDate(datum.date, '%d/%m/%Y')",
-            "as": "parsed_date"
-        },
-        {
-            "filter": {
-                "field": "pollutant",
-                "oneOf": [
-                    "PM 10",
-                    "PM 2.5",
-                    "NO2",
-                    "O3"
-                ]
-            }
-        },
-        {
-            "filter": "isValid(datum.concentration) && datum.concentration > 0"
-        },
-        {
-            "sort": [
-                {
-                    "field": "parsed_date"
-                }
-            ],
-            "window": [
-                {
-                    "op": "first_value",
-                    "field": "concentration",
-                    "as": "first_val"
-                }
-            ],
-            "frame": [
-                null,
-                null
-            ],
-            "groupby": [
-                "pollutant"
-            ]
-        },
-        {
-            "calculate": "(datum.concentration / datum.first_val) * 100",
-            "as": "normalized_index"
-        }
-    ],
-    "layer": [
-        {
-            "name": "MainLines",
-            "params": [
-                {
-                    "name": "pollutant_filter",
-                    "select": {
-                        "type": "point",
-                        "fields": [
-                            "pollutant"
-                        ]
-                    },
-                    "bind": {
-                        "input": "select",
-                        "options": [
-                            null,
-                            "PM 10",
-                            "PM 2.5",
-                            "NO2",
-                            "O3"
-                        ],
-                        "labels": [
-                            "Show All",
-                            "PM 10",
-                            "PM 2.5",
-                            "NO2",
-                            "O3"
-                        ],
-                        "name": "Select Pollutant: "
-                    }
-                }
-            ],
-            "mark": {
-                "type": "line",
-                "point": {
-                    "size": 15
-                },
-                "strokeWidth": 1.5,
-                "tooltip": true
-            },
-            "encoding": {
-                "x": {
-                    "field": "parsed_date",
-                    "type": "temporal",
-                    "title": "Date",
-                    "axis": {
-                        "format": "%b %Y",
-                        "labelAngle": -40
-                    }
-                },
-                "y": {
-                    "field": "normalized_index",
-                    "type": "quantitative",
-                    "title": "Normalized Index (%)",
-                    "scale": {
-                        "zero": false
-                    }
-                },
-                "color": {
-                    "field": "pollutant",
-                    "type": "nominal",
-                    "scale": {
-                        "scheme": "dark2"
-                    },
-                    "legend": null
-                },
-                "opacity": {
-                    "condition": {
-                        "param": "pollutant_filter",
-                        "value": 1
-                    },
-                    "value": 0.1
-                }
-            }
-        },
-        {
-            "name": "EndLabels",
-            "transform": [
-                {
-                    "window": [
-                        {
-                            "op": "rank",
-                            "as": "rank"
-                        }
-                    ],
-                    "sort": [
-                        {
-                            "field": "parsed_date",
-                            "order": "descending"
-                        }
-                    ],
-                    "groupby": [
-                        "pollutant"
-                    ]
-                },
-                {
-                    "filter": "datum.rank === 1"
-                }
-            ],
-            "mark": {
-                "type": "text",
-                "align": "left",
-                "dx": 10,
-                "fontWeight": "bold"
-            },
-            "encoding": {
-                "x": {
-                    "field": "parsed_date",
-                    "type": "temporal"
-                },
-                "y": {
-                    "field": "normalized_index",
-                    "type": "quantitative"
-                },
-                "text": {
-                    "field": "pollutant"
-                },
-                "color": {
-                    "field": "pollutant",
-                    "type": "nominal"
-                },
-                "opacity": {
-                    "condition": {
-                        "param": "pollutant_filter",
-                        "value": 1
-                    },
-                    "value": 0.1
-                }
-            }
-        },
-        {
-            "name": "HazeVerticalLine",
-            "data": {
-                "values": [
-                    {
-                        "x": "2019-09-01"
-                    }
-                ]
-            },
-            "mark": {
-                "type": "rule",
-                "strokeDash": [
-                    4,
-                    4
-                ],
-                "color": "#D9A404",
-                "opacity": 1.0
-            },
-            "encoding": {
-                "x": {
-                    "field": "x",
-                    "type": "temporal"
-                }
-            }
-        },
-        {
-            "name": "HazeText",
-            "data": {
-                "values": [
-                    {
-                        "x": "2018-01-15",
-                        "y": 480,
-                        "text": ["Most Polluted Period due to ", "2019 Southeast Asian Haze."]
-                    }
-                ]
-            },
-            "mark": {
-                "type": "text",
-                "align": "left",
-                "angle": 0,
-                "fontSize": 12,
-                "fontStyle": "italic",
-                "color": "black"
-            },
-            "encoding": {
-                "x": {
-                    "field": "x",
-                    "type": "temporal"
-                },
-                "y": {
-                    "field": "y",
-                    "type": "quantitative"
-                },
-                "text": {
-                    "field": "text"
-                }
-            }
-        },
-        {
-            "name": "LockdownVerticalLine",
-            "data": {
-                "values": [
-                    {
-                        "x": "2020-05-01"
-                    }
-                ]
-            },
-            "mark": {
-                "type": "rule",
-                "strokeDash": [
-                    4,
-                    4
-                ],
-                "color": "#D9A404",
-                "opacity": 1.0
-            },
-            "encoding": {
-                "x": {
-                    "field": "x",
-                    "type": "temporal"
-                }
-            }
-        },
-        {
-            "name": "LockdownText",
-            "data": {
-                "values": [
-                    {
-                        "x": "2020-06-01",
-                        "y": 250,
-                        "text": ["Least Polluted Period", "due to COVID-19 Lockdown (MCO)"]
-                    }
-                ]
-            },
-            "mark": {
-                "type": "text",
-                "align": "left",
-                "angle": 0,
-                "fontSize": 12,
-                "fontStyle": "italic",
-                "color": "black"
-            },
-            "encoding": {
-                "x": {
-                    "field": "x",
-                    "type": "temporal"
-                },
-                "y": {
-                    "field": "y",
-                    "type": "quantitative"
-                },
-                "text": {
-                    "field": "text"
-                }
-            }
-        }
-    ],
-    "title": {
-        "text": "Why PM2.5 is Our Biggest Concern",
-        "fontSize": 22
+    {
+      "filter": {
+        "field": "pollutant",
+        "oneOf": ["PM 10", "PM 2.5", "NO2", "O3"]
+      }
     },
-    "config": {
-        "axis": {
-            "grid": true,
-            "labelFontSize": 12
-        },
-        "background": "white"
+    {
+      "filter": "isValid(datum.concentration) && datum.concentration > 0"
+    },
+    {
+      "calculate": "datum.pollutant === 'PM 10' ? 'PM₁₀' : datum.pollutant === 'PM 2.5' ? 'PM₂.₅' : datum.pollutant === 'NO2' ? 'NO₂' : 'O₃'",
+      "as": "pollutant"
+    },
+    {
+      "sort": [{"field": "parsed_date"}],
+      "window": [
+        {
+          "op": "first_value",
+          "field": "concentration",
+          "as": "first_val"
+        }
+      ],
+      "frame": [null, null],
+      "groupby": ["pollutant"]
+    },
+    {
+      "calculate": "(datum.concentration / datum.first_val) * 100",
+      "as": "normalized_index"
     }
+  ],
+  "layer": [
+    {
+      "name": "MainLines",
+      "params": [
+        {
+          "name": "pollutant_filter",
+          "select": {
+            "type": "point", 
+            "fields": ["pollutant"],
+            "on": "click"
+          }
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "point": {
+          "size": 15
+        },
+        "strokeWidth": 1.5,
+        "tooltip": true
+      },
+      "encoding": {
+        "x": {
+          "field": "parsed_date",
+          "type": "temporal",
+          "title": "Month and Year",
+          "axis": {
+            "format": "%b %Y",
+            "labelAngle": -40
+          }
+        },
+        "y": {
+          "field": "normalized_index",
+          "type": "quantitative",
+          "title": "Normalized Index (%)",
+          "scale": {
+            "zero": false
+          }
+        },
+        "color": {
+          "field": "pollutant",
+          "type": "nominal",
+          "scale": {
+            "range": ["#7570b3", "#666666", "#1b9e77", "#e7298a"]
+          },
+          "legend": null
+        },
+        "opacity": {
+          "condition": {
+            "param": "pollutant_filter",
+            "value": 1
+          },
+          "value": 0.1
+        }
+      }
+    },
+    {
+      "name": "EndLabels",
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "rank"
+            }
+          ],
+          "sort": [{"field": "parsed_date", "order": "descending"}],
+          "groupby": ["pollutant"]
+        },
+        {
+          "filter": "datum.rank === 1"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {
+          "field": "parsed_date",
+          "type": "temporal"
+        },
+        "y": {
+          "field": "normalized_index",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "pollutant"
+        },
+        "color": {
+          "field": "pollutant",
+          "type": "nominal"
+        },
+        "opacity": {
+          "condition": {
+            "param": "pollutant_filter",
+            "value": 1
+          },
+          "value": 0.1
+        }
+      }
+    },
+    {
+      "name": "HazeVerticalLine",
+      "data": {
+        "values": [{"x": "2019-09-01"}]
+      },
+      "mark": {
+        "type": "rule",
+        "strokeDash": [4, 4],
+        "color": "#D9A404",
+        "opacity": 1.0
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "temporal"
+        }
+      }
+    },
+    {
+      "name": "HazeText",
+      "data": {
+        "values": [
+          {
+            "x": "2017-05-15",
+            "y": 480,
+            "text": ["Most Polluted Period due to ", "2019 Southeast Asian Haze."]
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "angle": 0,
+        "fontSize": 12,
+        "fontStyle": "italic",
+        "color": "black"
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "temporal"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "text"
+        }
+      }
+    },
+    {
+      "name": "LockdownVerticalLine",
+      "data": {
+        "values": [{"x": "2020-05-01"}]
+      },
+      "mark": {
+        "type": "rule",
+        "strokeDash": [4, 4],
+        "color": "#D9A404",
+        "opacity": 1.0
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "temporal"
+        }
+      }
+    },
+    {
+      "name": "LockdownText",
+      "data": {
+        "values": [
+          {
+            "x": "2020-06-01",
+            "y": 250,
+            "text": ["Least Polluted Period", "due to COVID-19 Lockdown (MCO)"]
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "angle": 0,
+        "fontSize": 12,
+        "fontStyle": "italic",
+        "color": "black"
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "temporal"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "text"
+        }
+      }
+    }
+  ],
+  "title": {
+    "text": "Why PM₂.₅ is Our Biggest Concern",
+    "subtitle": ["Normalized pollutant trends showing PM₂.₅ consistently driving major air quality anomalies.",
+    "[Click lines to filter]"],
+    "fontSize": 22,
+    "subtitleFontSize": 13
+  },
+  "config": {
+    "axis": {
+      "grid": true,
+      "labelFontSize": 12
+    },
+    "background": "white"
+  }
 }

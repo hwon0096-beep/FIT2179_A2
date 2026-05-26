@@ -1,0 +1,138 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Malaysia Air Pollution Profile (2019)",
+    "subtitle": "Comparison of the Most Polluted City, Least Polluted City, and National Average.",
+    "anchor": "middle",
+    "fontSize": 22,
+    "subtitleFontSize": 13
+  },
+  "width": "container",
+  "height": 450,
+  "config": {
+    "view": {"stroke": null}
+  },
+  "layer": [
+    {
+      "name": "Concentric Grid Rings",
+      "data": {"sequence": {"start": 0, "stop": 360, "as": "id"}},
+      "transform": [
+        {"calculate": "floor(datum.id / 90) * 10 + 10", "as": "ring"},
+        {"calculate": "(datum.id % 90) * 2 * 3.14159265359 / 89", "as": "angle"},
+        {"calculate": "datum.ring * cos(datum.angle)", "as": "x"},
+        {"calculate": "datum.ring * sin(datum.angle)", "as": "y"}
+      ],
+      "mark": {"type": "line", "color": "#dadada", "strokeDash": [3, 3], "strokeWidth": 1},
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative", "scale": {"domain": [-48, 48]}, "axis": null},
+        "y": {"field": "y", "type": "quantitative", "scale": {"domain": [-48, 48]}, "axis": null},
+        "detail": {"field": "ring", "type": "quantitative"},
+        "order": {"field": "id", "type": "quantitative"}
+      }
+    },
+    {
+      "name": "Grid Scale Labels",
+      "data": {
+        "values": [
+          {"val": 10}, {"val": 20}, {"val": 30}, {"val": 40}
+        ]
+      },
+      "mark": {"type": "text", "dx": 12, "dy": -10 , "fontSize": 10, "color": "#888888", "fontWeight": "bold"},
+      "encoding": {
+        "x": {"field": "val", "type": "quantitative", "scale": {"domain": [-48, 48]}},
+        "y": {"datum": 0, "scale": {"domain": [-48, 48]}},
+        "text": {"field": "val", "type": "nominal"}
+      }
+    },
+    {
+      "name": "Grid Spokes",
+      "data": {
+        "values": [
+          {"order": 0, "r": 40},
+          {"order": 1, "r": 40},
+          {"order": 2, "r": 40}
+        ]
+      },
+      "transform": [
+        {"calculate": "datum.order * 2 * 3.14159265359 / 3", "as": "angle"},
+        {"calculate": "datum.r * cos(datum.angle)", "as": "x"},
+        {"calculate": "datum.r * sin(datum.angle)", "as": "y"}
+      ],
+      "mark": {"type": "rule", "color": "#cbcbcb", "strokeWidth": 1},
+      "encoding": {
+        "x": {"datum": 0, "scale": {"domain": [-48, 48]}},
+        "y": {"datum": 0, "scale": {"domain": [-48, 48]}},
+        "x2": {"field": "x", "type": "quantitative"},
+        "y2": {"field": "y", "type": "quantitative"}
+      }
+    },
+    {
+      "name": "Axis Metric Labels",
+      "data": {
+        "values": [
+          {"metric": "PM₂.₅ (μg/m³)", "order": 0, "r": 43, "dx": 5, "dy": 0, "align": "left"},
+          {"metric": "PM₁₀ (μg/m³)", "order": 1, "r": 42, "dx": -5, "dy": -10, "align": "right"},
+          {"metric": "NO₂ (μg/m³)", "order": 2, "r": 42, "dx": -5, "dy": 10, "align": "right"}
+        ]
+      },
+      "transform": [
+        {"calculate": "datum.order * 2 * 3.14159265359 / 3", "as": "angle"},
+        {"calculate": "datum.r * cos(datum.angle)", "as": "x"},
+        {"calculate": "datum.r * sin(datum.angle)", "as": "y"}
+      ],
+      "mark": {"type": "text", "baseline": "middle", "fontWeight": "bold", "fontSize": 12},
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative", "scale": {"domain": [-48, 48]}},
+        "y": {"field": "y", "type": "quantitative", "scale": {"domain": [-48, 48]}},
+        "text": {"field": "metric", "type": "nominal"},
+        "dx": {"field": "dx", "type": "quantitative"},
+        "dy": {"field": "dy", "type": "quantitative"},
+        "align": {"field": "align", "type": "nominal"}
+      }
+    },
+    {
+      "name": "Data Polygons",
+      "data": {
+        "values": [
+          {"key": "Selangor (Highest)", "metric": "PM₂.₅", "value": 29.73, "order": 0},
+          {"key": "Selangor (Highest)", "metric": "PM₁₀", "value": 38.98, "order": 1},
+          {"key": "Selangor (Highest)", "metric": "NO₂", "value": 32.71, "order": 2},
+          
+          {"key": "W.p Labuan (Lowest)", "metric": "PM₂.₅", "value": 13.63, "order": 0},
+          {"key": "W.p Labuan (Lowest)", "metric": "PM₁₀", "value": 19.45, "order": 1},
+          {"key": "W.p Labuan (Lowest)", "metric": "NO₂", "value": 3.95, "order": 2},
+          
+          {"key": "Malaysia (Average)", "metric": "PM₂.₅", "value": 20.97, "order": 0},
+          {"key": "Malaysia (Average)", "metric": "PM₁₀", "value": 29.32, "order": 1},
+          {"key": "Malaysia (Average)", "metric": "NO₂", "value": 13.47, "order": 2}
+        ]
+      },
+      "transform": [
+        {"calculate": "datum.order * 2 * 3.14159265359 / 3", "as": "angle"},
+        {"calculate": "datum.value * cos(datum.angle)", "as": "x"},
+        {"calculate": "datum.value * sin(datum.angle)", "as": "y"}
+      ],
+      "layer": [
+        {
+          "mark": {"type": "line", "strokeWidth": 2.5, "interpolate": "linear-closed"},
+          "encoding": {
+            "x": {"field": "x", "type": "quantitative", "scale": {"domain": [-48, 48]}},
+            "y": {"field": "y", "type": "quantitative", "scale": {"domain": [-48, 48]}},
+            "color": {
+              "field": "key", 
+              "type": "nominal", 
+              "title": "Profiles",
+              "scale": {"range": ["#0000FF", "#D95F02","#4A4A4A"]}
+            },
+            "order": {"field": "order", "type": "quantitative"},
+            "tooltip": [
+              {"field": "key", "type": "nominal", "title": "Profile"},
+              {"field": "metric", "type": "nominal", "title": "Pollutant"},
+              {"field": "value", "type": "quantitative", "title": "Value (μg/m³)"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
