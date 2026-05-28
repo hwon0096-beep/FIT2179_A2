@@ -31,8 +31,8 @@
                 }
             ],
             "encoding": {
-                "x": {"field": "source", "type": "nominal","title":"Source", "axis": {"labelAngle": -30}},
-                "y": {"aggregate": "mean", "field": "emissions", "type": "quantitative", "title":"GHG Emissions (kt CO₂e)", "scale": {"domain": [-260000, 280000]}},
+                "x": {"field": "source", "type": "nominal","title":"Source", "axis": {"labelAngle": -30, "minExtent": 70, "maxExtent": 70}},
+                "y": {"aggregate": "mean", "field": "emissions", "type": "quantitative", "title":"GHG Emissions (kt CO₂e)", "scale": {"domain": [-260000, 280000]},"axis": {"minExtent": 40}},
                 "color": {
                     "condition": {"param": "pts", "field": "source", "type": "nominal",
                     "scale": {"domain": ["energy","industrial_processes", "agriculture", "waste", "lulucf"], "range": ["#2171b5","#084594", "#6baed6", "#bdd7e7", "#22A884FF"]},
@@ -58,8 +58,8 @@
             "transform": [{"filter": {"param": "pts"}}],
             "mark": {"type": "line", "point": true},
             "encoding": {
-                "x": {"field": "date", "type": "temporal", "title": "Month and Year","axis":{"format": "%b %Y", "labelAngle": -40}},
-                "y": {"field": "emissions", "type": "quantitative", "title": "GHG Emissions (kt CO₂e)", "scale": {"domain": [-260000, 280000]}},
+                "x": {"field": "date", "type": "temporal", "title": "Month and Year","axis":{"format": "%b %Y", "labelAngle": -30, "minExtent": 70, "maxExtent": 70}},
+                "y": {"field": "emissions", "type": "quantitative", "title": "GHG Emissions (kt CO₂e)", "scale": {"domain": [-260000, 280000]},"axis": {"minExtent": 40}},
                 "color": {"field": "source", "type": "nominal",
                 "scale": {"domain": ["energy","industrial_processes", "agriculture", "waste", "lulucf"], "range": ["#2171b5","#084594", "#6baed6", "#bdd7e7", "#22A884FF"]}
                 }

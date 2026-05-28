@@ -59,19 +59,15 @@
                     "field": "pm25_ratio_who",
                     "type": "quantitative",
                     "scale": {
-                        "scheme": "yelloworangered",
-                        "domain": [0, 2, 5, 10, 20],
-                        "clamp": true
+                        "type": "threshold", 
+                        "domain": [2, 5, 10, 20], 
+                        "range": ["#fef0d9", "#fdcc8a", "#fc8d59", "#e34a33", "#b30000"] 
                     },
                     "legend": {
-                        "title": "Multiple of WHO Guideline",
+                        "title": "WHO Guideline Multiple",
                         "orient": "right",
-                        "offset": 5,
                         "titleAnchor": "start",
-                        "gradientLength": 200,
-                        "gradientThickness": 15,
-                        "titleFontSize": 11,
-                        "labelFontSize": 10
+                        "labelExpr": "datum.value == 2 ? '0 - 2x' : datum.value == 5 ? '2 - 5x' : datum.value == 10 ? '5 - 10x' : datum.value == 20 ? '10 - 20x' : '> 20x'"
                     }
                 },
                 "tooltip": [
@@ -79,6 +75,63 @@
                     {"field": "avg_pm25", "type": "quantitative", "title": "Avg PM₂.₅ (μg/m³)", "format": ".1f"},
                     {"field": "pm25_ratio_who", "type": "quantitative", "title": "Multiple of WHO Guideline", "format": ".1f"}
                 ]
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {
+                        "start_lon": 67.7, "start_lat": 33.9, 
+                        "end_lon": -5.0, "end_lat": 35.0
+                    },
+                    {
+                        "start_lon": 101.97, "start_lat": 4.21, 
+                        "end_lon": 90.0, "end_lat": -35.0
+                    }
+                ]
+            },
+            "mark": {
+                "type": "rule",
+                "color": "#444444",
+                "strokeWidth": 1,
+                "strokeDash": [2, 2]
+            },
+            "encoding": {
+                "longitude": {"field": "start_lon", "type": "quantitative"},
+                "latitude": {"field": "start_lat", "type": "quantitative"},
+                "longitude2": {"field": "end_lon"},
+                "latitude2": {"field": "end_lat"}
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {
+                        "longitude": -40.0, 
+                        "latitude": 40.0, 
+                        "text": ["Afghanistan drastically","exceeds global", "health thresholds."],
+                        "align": "center"
+                    },
+                    {
+                        "longitude": 80.0, 
+                        "latitude": -40.0, 
+                        "text": ["Malaysia breaches guidelines,", "avoiding global extremes."],
+                        "align": "center"
+                    }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "fontSize": 10.5,
+                "fontWeight": "bold",
+                "color": "#1a252f",
+                "lineHeight": 13
+            },
+            "encoding": {
+                "longitude": {"field": "longitude", "type": "quantitative"},
+                "latitude": {"field": "latitude", "type": "quantitative"},
+                "text": {"field": "text", "type": "nominal"},
+                "align": {"field": "align", "type": "nominal", "scale": null}
             }
         }
     ],

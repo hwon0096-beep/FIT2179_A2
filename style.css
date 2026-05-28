@@ -51,10 +51,10 @@ body {
 
 /* --- Header Section --- */
 header {
-    background-color: #ffffff;
+    background-color: #1a252f;
     text-align: left;
-    padding: 40px 0;
-    border-bottom: 1px solid #e2e8f0;
+    padding: 60px 0;
+    border-bottom: none;
     width: 100%;           
     margin-left: 0;
     margin-right: 0;
@@ -63,22 +63,22 @@ header {
 .header-content {
     width: 95%;
     max-width: 1500px;
-    margin: 0 auto
+    margin: 0 auto;
 }
 
 header h1 {
-    font-family: 'Merriweather', Georgia, serif; /* FIX: Serif for Title */
+    font-family: 'Merriweather', Georgia, serif;
     font-size: 2.5rem;
-    color: #1a252f;
-    margin-bottom: 10px;
+    color: #ffffff;
+    margin-bottom: 12px;
     font-weight: 900;
-    letter-spacing: -0.02em; /* Keeps the heavy serif title looking tight and elegant */
+    letter-spacing: -0.02em;
 }
 
 .subtitle {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
-    font-size: 1.15rem;
-    color: #7f8c8d;
+    font-size: 1.2rem;
+    color: #b2bec3;
     max-width: 100%;
     margin: 0;
 }

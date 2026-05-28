@@ -55,8 +55,8 @@
     "x": {
       "field": "NO2",
       "type": "quantitative",
-      "title": "Nitrogen Dioxide (NO₂ µg/m³)"
-    },
+      "title": "Nitrogen Dioxide (NO₂ µg/m³)",
+      "axis": {"minExtent": 30, "maxExtent": 30}},
     "y": {
       "field": "PM10",
       "type": "quantitative",

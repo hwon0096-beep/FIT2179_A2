@@ -203,7 +203,8 @@
         ],
         "subtitle": "Monthly PM₂.₅ concentration levels peaking severely during the September 2019 haze.",
         "fontSize": 22,
-        "subtitleFontSize": 13
+        "subtitleFontSize": 13,
+        "offset": 20
     },
     "config": {
         "axis": {
