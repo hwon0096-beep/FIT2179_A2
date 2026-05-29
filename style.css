@@ -30,14 +30,14 @@ body {
 }
 
 .nav-brand {
-    font-family: 'Merriweather', Georgia, serif; /* Serif accent for branding */
+    font-family: 'Merriweather', Georgia, serif;
     font-weight: 700;
     font-size: 1.2rem;
     color: #1a252f;
 }
 
 .nav-links a {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Clean sans-serif links */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #7f8c8d;
     text-decoration: none;
     margin-left: 20px;
@@ -100,7 +100,7 @@ header h1 {
 }
 
 h2 {
-    font-family: 'Merriweather', Georgia, serif; /* FIX: Serif for Section Headers */
+    font-family: 'Merriweather', Georgia, serif;
     font-size: 1.65rem;
     color: #1a252f;
     margin-bottom: 12px;
@@ -121,7 +121,7 @@ h2::after {
 }
 
 .narrative-text {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* FIX: Explicitly sans-serif for story copy */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 1.05rem;
     color: #5a6c7d;
     max-width: 100%;
@@ -155,7 +155,7 @@ h2::after {
 }
 
 .chart-box h3 {
-    font-family: 'Merriweather', Georgia, serif; /* FIX: Serif for mini chart titles */
+    font-family: 'Merriweather', Georgia, serif;
     font-size: 1.1rem;
     color: #34495e;
     margin-bottom: 12px;
@@ -172,7 +172,7 @@ h2::after {
 
 .conclusion-quote {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 1.25rem;       /* Makes the text slightly larger and more important */
+    font-size: 1.25rem;
     font-weight: 500;
     font-style: italic;
     color: #2c3e50;
@@ -181,9 +181,8 @@ h2::after {
     margin: 20px 10px;
     padding: 15px 25px;
     
-    /* Adds a beautifully aligned solid border on the left side */
     border-left: 5px solid #1a252f; 
-    background-color: #f8fafc; /* Subtle, clean light background shift */
+    background-color: #f8fafc;
     border-radius: 0 8px 8px 0;
 }
 /* --- Footer & Metadata Setup --- */
@@ -201,14 +200,14 @@ footer {
 }
 
 .footer-content h3 {
-    font-family: 'Merriweather', Georgia, serif; /* Serif for data source header */
+    font-family: 'Merriweather', Georgia, serif;
     color: #ffffff;
     margin-bottom: 15px;
     font-weight: 700;
 }
 
 .footer-content p, .footer-content ul {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Clean sans-serif for metadata fields */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .footer-content p {
@@ -224,7 +223,6 @@ footer {
     text-decoration: underline;
 }
 
-/* Responsive adjustment for small laptop screens */
 @media (max-width: 900px) {
     .chart-row-2col {
         grid-template-columns: 1fr;
