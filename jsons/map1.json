@@ -67,7 +67,9 @@
                         "title": "WHO Guideline Multiple",
                         "orient": "right",
                         "titleAnchor": "start",
-                        "labelExpr": "datum.value == 2 ? '0 - 2x' : datum.value == 5 ? '2 - 5x' : datum.value == 10 ? '5 - 10x' : datum.value == 20 ? '10 - 20x' : '> 20x'"
+                        "values": [0, 2, 5, 10, 20],
+                        "labelExpr": 
+                            "datum.value == 0 ? '0 - 2x' : datum.value == 2 ? '2 - 5x' : datum.value == 5 ? '5 - 10x' : datum.value == 10 ? '10 - 20x':datum.value == 20 ? '> 20x' : ''"
                     }
                 },
                 "tooltip": [
